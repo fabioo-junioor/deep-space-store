@@ -1,6 +1,26 @@
-import './assets/main.css'
+import { createApp } from 'vue';
+import App from './App.vue';
 
-import { createApp } from 'vue'
-import App from './App.vue'
+// Vuetify
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 
-createApp(App).mount('#app')
+// Router 
+import router from './router/router.js';
+
+// Vuex
+import store from './store/store.js';
+
+
+const vuetify = createVuetify({
+    components,
+    directives
+});
+
+
+createApp(App)
+    .use(vuetify)
+    .use(router)
+    .use(store)
+    .mount('#app')
