@@ -1,6 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-const routes = [];
+import Home from '../pages/Home.vue';
+import Checkout from '../pages/Checkout.vue';
+
+const routes = [
+    {
+        path: '/',
+        name: 'home',
+        component: Home        
+    },
+    {
+        path: '/checkout',
+        name: 'checkout',
+        component: Checkout,
+        beforeEnter: (_, __, next) => {
+            next();
+            return;
+
+        }
+    },
+    {
+        path: '/:pathMatch(.*)',
+        redirect: '/'
+
+    }
+];
 
 const router = createRouter({
     history: createWebHistory(),
