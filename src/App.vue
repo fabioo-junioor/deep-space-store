@@ -12,7 +12,6 @@ import NavBar from "./components/NavBar.vue";
 <style scoped>
 #app {
   background-color: rgba(0, 0, 0, 0.1);
-  height: 100vh;
   
 }
 </style>
