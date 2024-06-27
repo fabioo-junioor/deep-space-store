@@ -2,8 +2,10 @@ import { createStore } from 'vuex';
 
 const store = createStore({
     state:{
-        dataFormPersonal: {name: '', email: '', fone:''},
-        dataFormDelivery : {zipCode: '', street: '', number: '', district: '', city: '', state: ''}
+        dataFormPersonal : {name: '', email: '', fone:''},
+        dataFormDelivery : {zipCode: '', street: '', number: '', district: '', city: '', state: ''},
+        dataProduct : {},
+        carProduct: []
     },
     mutations: {
         setDataFormPersonal(state, data){
@@ -12,6 +14,10 @@ const store = createStore({
         },
         setDataFormDelivery(state, data){
             state.dataFormDelivery = data;
+
+        },
+        setDataProduct(state, data){
+            state.dataProduct = {...data};
 
         }
     },
@@ -23,6 +29,10 @@ const store = createStore({
         getDataFormDelivery(state){
             return state.dataFormDelivery;
 
+        },
+        getDataProduct(state){
+            return state.dataProduct;
+            
         }
     }
 })
