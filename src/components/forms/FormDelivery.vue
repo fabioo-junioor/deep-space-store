@@ -14,12 +14,14 @@ const dataFormDelivery = reactive({
   state: ''
 
 });
+const formatCep = cep => cep.replace(/\D/g, '');
+
 const confirmForm = () => {
     store.commit('setDataFormDelivery', dataFormDelivery);
-    console.log(store.getters.getDataFormDelivery);
+    
 }
 const getCep = async () => {
-  const dataCep = await getCepUser(dataFormDelivery.zipCode);
+  const dataCep = await getCepUser(formatCep(dataFormDelivery.zipCode));
   if(dataCep){
     dataFormDelivery.city = dataCep.localidade;
     dataFormDelivery.state = dataCep.uf;
@@ -34,32 +36,36 @@ const getCep = async () => {
 
 <template>
   <div id="formDelivery" class="pa-1 ma-1">
-    <v-form @submit.prevent="confirmForm">
+    <v-form @submit.prevent="confirmForm"
+        :disabled="props.disabled">
         <v-text-field
             v-model="dataFormDelivery.zipCode"
-            label="CEP"
+            label="CEP*"
             type="text"
             v-mask="['#####-###']"
             :onChange="getCep" />
         <v-text-field
             v-model="dataFormDelivery.street"
-            label="Rua"
+            label="Rua*"
             type="text" />
         <v-text-field
             v-model="dataFormDelivery.number"
-            label="Numero"
+            label="Numero*"
             type="number" />
         <v-text-field
+            required
             v-model="dataFormDelivery.district"
             label="Bairro"
             type="text" />
         <v-text-field
+            disabled
             v-model="dataFormDelivery.city"
-            label="Cidade"
+            label="Cidade*"
             type="text" />
         <v-text-field
+            disabled
             v-model="dataFormDelivery.state"
-            label="Estado"
+            label="Estado*"
             type="text" />
         <v-btn
             :disabled="props.disabled"

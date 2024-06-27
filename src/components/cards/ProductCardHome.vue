@@ -5,7 +5,7 @@ const emit = defineEmits(['btnBuyProduct']);
 </script>
 
 <template>
-  <div id="productCard">
+  <div id="productCardHome">
     <v-card class="d-flex flex-column" width="250">
       <v-img
         class="text-white"

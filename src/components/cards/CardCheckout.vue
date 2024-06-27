@@ -5,7 +5,7 @@ const props = defineProps(['title']);
 
 <template>
   <div id="cardCheckout" class="pa-1 rounded-lg">
-    <h3 class="ma-2">{{title}}</h3>
+    <h3 class="ma-3">{{title}}</h3>
     <slot></slot>
   </div>
 </template>

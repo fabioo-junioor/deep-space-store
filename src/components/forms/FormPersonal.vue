@@ -1,10 +1,9 @@
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import { reactive } from 'vue';
 import { useStore } from 'vuex';
-
 const emit = defineEmits(['clickBtnFormPersonal']);
+
 const store = useStore();
-const pattern = ref('/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/');
 const dataFormPersonal = reactive({
   name: '',
   email: '',
@@ -13,7 +12,6 @@ const dataFormPersonal = reactive({
 
 const confirmForm = () => {
   store.commit('setDataFormPersonal', dataFormPersonal);
-  console.log(store.getters.getDataFormPersonal);
   
 }
 </script>

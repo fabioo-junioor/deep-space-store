@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted, reactive } from "vue";
+import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import ProductCard from "../components/ProductCard.vue";
+import { ProductCardHome } from '../components';
 
 const router = useRouter();
 const allProducts = reactive([
@@ -18,7 +18,7 @@ const buyProduct = (offer_code) => {
 
 <template>
   <div id="home" class="d-flex flew-wrap justify-center ga-3 pa-4">
-    <ProductCard
+    <ProductCardHome
       v-for="i in allProducts" :key="i"
       :offer_code="i.offer_code"
       :name="i.name"

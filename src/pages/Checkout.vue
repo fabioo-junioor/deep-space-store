@@ -1,18 +1,19 @@
 <script setup>
 import { onMounted, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import { getProduct } from '../services/api/apiMoks.js';
-import CardCheckout from '../components/CardCheckout.vue';
-import FormPersonal from '../components/forms/FormPersonal.vue';
-import FormDelivery from '../components/forms/FormDelivery.vue';
-import FormPayment from '../components/forms/FormPayment.vue';
+import { CardCheckout, ProductCardCheckout, FormPersonal, FormDelivery, FormPayment } from '../components';
 
+const store = useStore();
 const route = useRoute();
 const visibilityBtnFormDelivery = ref(true);
 
 const getProductByOfferCode = async () => {
   let offer_code = route.params.offer_code;
-  console.log(await getProduct(offer_code));
+  let dataProduct = await getProduct(offer_code);
+
+  store.commit('setDataProduct', dataProduct);
 
 }
 onMounted(() => {
@@ -25,7 +26,9 @@ onMounted(() => {
   <div id="checkout" class="pa-1 ma-1">
     <v-row class="productDetails ma-1">
       <CardCheckout
-        title="Detalhes do produto"></CardCheckout>
+        title="Detalhes do produto">
+        <ProductCardCheckout />
+      </CardCheckout>
     </v-row>
     <v-row class="paymentDetails flex-nowrap ga-1">
       <v-col class="personalFormDetails flex-grow-1">
@@ -57,10 +60,8 @@ onMounted(() => {
   .productDetails{
     #cardCheckout{
       width: 100%;
-      height: 10rem;
       
     }
-  }
-  
+  }  
 }
 </style>
