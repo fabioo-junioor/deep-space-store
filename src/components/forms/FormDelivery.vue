@@ -1,10 +1,10 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import { getCepUser } from '../../services/api/apiViacep.js';
-const props = defineProps(['disabled']);
 
 const store = useStore();
+const isConfim = ref(true);
 const dataFormDelivery = reactive({
   zipCode: '',
   street: '',
@@ -14,21 +14,36 @@ const dataFormDelivery = reactive({
   state: ''
 
 });
-const formatCep = cep => cep.replace(/\D/g, '');
+const removeCepCharacters = cep => cep.replace(/\D/g, '');
 
-const confirmForm = () => {
-    store.commit('setDataFormDelivery', dataFormDelivery);
+const confirmInfos = () => {
+  if((dataFormDelivery.zipCode &&
+    dataFormDelivery.street &&
+    dataFormDelivery.number &&
+    dataFormDelivery.city &&
+    dataFormDelivery.state) != ''){
+      store.commit('setDataFormDelivery', dataFormDelivery);
+      isConfim.value = false;
+      return;
+
+  }
+  console.log('A campos em branco!');
     
 }
+const editInfos = () => {
+  isConfim.value = true;
+
+}
 const getCep = async () => {
-  const dataCep = await getCepUser(formatCep(dataFormDelivery.zipCode));
+  const dataCep = await getCepUser(removeCepCharacters(dataFormDelivery.zipCode));
   if(dataCep){
+    dataFormDelivery.street = dataCep.logradouro;
     dataFormDelivery.city = dataCep.localidade;
     dataFormDelivery.state = dataCep.uf;
     return;
 
   }
-  console.log('cep errado');
+  console.log('Cep incorreto!');
 
 }
 
@@ -36,8 +51,7 @@ const getCep = async () => {
 
 <template>
   <div id="formDelivery" class="pa-1 ma-1">
-    <v-form @submit.prevent="confirmForm"
-        :disabled="props.disabled">
+    <v-form :disabled="!isConfim" @submit.prevent>
         <v-text-field
             v-model="dataFormDelivery.zipCode"
             label="CEP*"
@@ -68,13 +82,23 @@ const getCep = async () => {
             label="Estado*"
             type="text" />
         <v-btn
-            :disabled="props.disabled"
+            v-if="isConfim"
+            @click="confirmInfos"
             class="mt-2"
             type="submit"
             size="large"
             elevation="4"
             color="red"
             block>Confirmar</v-btn>
+        <v-btn
+            v-else
+            @click="editInfos"
+            class="mt-2"
+            type="submit"
+            size="large"
+            elevation="4"
+            color="red"
+            block>Editar</v-btn>
     </v-form>
   </div>
 </template>

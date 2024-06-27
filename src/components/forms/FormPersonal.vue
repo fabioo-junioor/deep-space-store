@@ -1,24 +1,35 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useStore } from 'vuex';
-const emit = defineEmits(['clickBtnFormPersonal']);
 
 const store = useStore();
+const isConfirm = ref(true);
 const dataFormPersonal = reactive({
   name: '',
   email: '',
   fone: ''
 });
 
-const confirmForm = () => {
-  store.commit('setDataFormPersonal', dataFormPersonal);
+const confirmInfos = () => {
+  if(dataFormPersonal.fone != ''){
+    store.commit('setDataFormPersonal', dataFormPersonal);
+    isConfirm.value = false;
+    return;
+
+  }
+  console.log('A campos em branco!');
   
 }
+const editInfos = () => {
+  isConfirm.value = true;
+
+}
+
 </script>
 
 <template>
   <div id="formPersonal" class="pa-1 ma-1">
-    <v-form @submit.prevent="confirmForm">
+    <v-form :disabled='!isConfirm' @submit.prevent>
         <v-text-field
             v-model="dataFormPersonal.name"
             label="Nome completo"
@@ -35,14 +46,23 @@ const confirmForm = () => {
             placeholder="(55) 9999-9999"
             :rules="[v => !!v || 'Campo obrigatório']" />
         <v-btn
-            :disabled="dataFormPersonal.fone != '' ? false : true"
-            @click="emit('clickBtnFormPersonal')" 
+            v-if="isConfirm"
+            @click="confirmInfos" 
             class="mt-2"
             type="submit"
             size="large"
             elevation="4"
             color="red"
             block>Confirmar</v-btn>
+        <v-btn
+            v-else
+            @click="editInfos" 
+            class="mt-2"
+            type="submit"
+            size="large"
+            elevation="4"
+            color="red"
+            block>Editar</v-btn>
     </v-form>
   </div>
 </template>
