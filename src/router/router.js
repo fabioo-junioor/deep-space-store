@@ -10,7 +10,7 @@ const routes = [
         component: Home        
     },
     {
-        path: '/checkout',
+        path: '/checkout/:offer_code',
         name: 'checkout',
         component: Checkout,
         beforeEnter: (_, __, next) => {
