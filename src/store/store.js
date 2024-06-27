@@ -4,20 +4,23 @@ const store = createStore({
     state:{
         dataFormPersonal : {name: '', email: '', fone:''},
         dataFormDelivery : {zipCode: '', street: '', number: '', district: '', city: '', state: ''},
-        dataProduct : {},
-        carProduct: []
+        dataProduct : {}
     },
     mutations: {
         setDataFormPersonal(state, data){
-            state.dataFormPersonal = data;
+            state.dataFormPersonal = {...data};
 
         },
         setDataFormDelivery(state, data){
-            state.dataFormDelivery = data;
+            state.dataFormDelivery = {...data};
 
         },
         setDataProduct(state, data){
-            state.dataProduct = {...data};
+            state.dataProduct = data;
+
+        },
+        removeDataProduct(state){
+            state.dataProduct = {};
 
         }
     },
