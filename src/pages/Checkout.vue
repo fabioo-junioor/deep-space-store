@@ -1,13 +1,24 @@
 <script setup>
 import { onMounted, reactive, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { getProduct } from '../services/api/apiMoks.js';
 import CardCheckout from '../components/CardCheckout.vue';
 import FormPersonal from '../components/forms/FormPersonal.vue';
 import FormDelivery from '../components/forms/FormDelivery.vue';
 import FormPayment from '../components/forms/FormPayment.vue';
 
-//const visibilityBtnFormPersonal = ref(true);
+const route = useRoute();
 const visibilityBtnFormDelivery = ref(true);
 
+const getProductByOfferCode = async () => {
+  let offer_code = route.params.offer_code;
+  console.log(await getProduct(offer_code));
+
+}
+onMounted(() => {
+  getProductByOfferCode();
+  
+})
 </script>
 
 <template>

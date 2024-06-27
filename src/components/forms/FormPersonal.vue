@@ -33,8 +33,9 @@ const confirmForm = () => {
             v-model="dataFormPersonal.fone"
             label="Telefone*"
             type="text"
-            mask="(###) ### - ####"
-            :rules="[v => !!v || 'Informe o telefone']" />
+            v-mask="['(##) ####-####']"
+            placeholder="(55) 9999-9999"
+            :rules="[v => !!v || 'Campo obrigatório']" />
         <v-btn
             :disabled="dataFormPersonal.fone != '' ? false : true"
             @click="emit('clickBtnFormPersonal')" 

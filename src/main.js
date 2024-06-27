@@ -13,15 +13,20 @@ import router from './router/router.js';
 // Vuex
 import store from './store/store.js';
 
+// Vue the mask
+import VueTheMask from 'vue-the-mask';
+
+import { worker } from './mocks/browser.js';
+worker.start();
 
 const vuetify = createVuetify({
     components,
     directives
 });
 
-
 createApp(App)
     .use(vuetify)
     .use(router)
     .use(store)
+    .use(VueTheMask)
     .mount('#app')

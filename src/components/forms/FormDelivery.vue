@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import { useStore } from 'vuex';
-import { getCepUser } from '../../services/api/checkout/apiViacep.js';
+import { getCepUser } from '../../services/api/apiViacep.js';
 const props = defineProps(['disabled']);
 
 const store = useStore();
@@ -39,6 +39,7 @@ const getCep = async () => {
             v-model="dataFormDelivery.zipCode"
             label="CEP"
             type="text"
+            v-mask="['#####-###']"
             :onChange="getCep" />
         <v-text-field
             v-model="dataFormDelivery.street"
