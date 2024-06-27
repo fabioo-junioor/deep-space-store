@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(['offer_code','name','description','price','img']);
+const props = defineProps(['offer_code','name','price','img']);
 const emit = defineEmits(['btnBuyProduct']);
 
 </script>
@@ -8,18 +8,15 @@ const emit = defineEmits(['btnBuyProduct']);
   <div id="productCardHome">
     <v-card class="d-flex flex-column" width="250">
       <v-img
-        class="text-white"
+        class="text-white border-sm"
         height="200"
         :src="props.img"
-        cover
-      >
+        cover>
       </v-img>
       <div
         class="productInfo pa-4 d-flex flex-column align-center justify-center"
       >
         <v-card-title class="pa-1">{{props.name}}</v-card-title>
-        <v-card-text class="pa-1">{{props.description}}</v-card-text
-        >
         <v-card-text class="pa-1">R$ {{props.price}}</v-card-text>
       </div>
 

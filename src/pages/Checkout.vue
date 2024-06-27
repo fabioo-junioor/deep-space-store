@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { getProduct } from '../services/api/apiMoks.js';
@@ -13,11 +13,12 @@ const getProductByOfferCode = async () => {
   let offer_code = route.params.offer_code;
   let dataProduct = await getProduct(offer_code);
 
+  store.commit('removeDataProduct');
   store.commit('setDataProduct', dataProduct);
 
 }
-onMounted(() => {
-  getProductByOfferCode();
+onMounted(async () => {
+  await getProductByOfferCode();
   
 })
 </script>
@@ -34,15 +35,13 @@ onMounted(() => {
       <v-col class="personalFormDetails flex-grow-1">
         <CardCheckout
           title="Dados pessoais">
-          <FormPersonal
-            @clickBtnFormPersonal="visibilityBtnFormDelivery = false" />
+          <FormPersonal />
         </CardCheckout>
       </v-col>
       <v-col class="deliveryFormDetails flex-grow-1">
         <CardCheckout
           title="Dados de entrega">
-          <FormDelivery
-            :disabled="visibilityBtnFormDelivery" />
+          <FormDelivery />
         </CardCheckout>
       </v-col>
       <v-col class="paymentFormdetails flex-grow-1">

@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div id="navbar">
+  <div id="navBar">
     <v-toolbar title="Deep Space Store" color="red" :elevation="2">
       <v-badge :content="2" class="ma-8">
         <v-icon icon="$vuetify" size="x-large"></v-icon>
@@ -12,8 +12,5 @@
 </template>
 
 <style scoped>
-#navbar {
-  background-color: red;
 
-}
 </style>
