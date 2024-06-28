@@ -7,6 +7,7 @@ import ProductCardHome from './cards/ProductCardHome.vue';
 import ProductCardCheckout from './cards/ProductCardCheckout.vue'
 
 import NavBar from './NavBar.vue';
+import Alert from './Alert.vue';
 
 export {
     FormPersonal,
@@ -15,5 +16,6 @@ export {
     CardCheckout,
     ProductCardHome,
     ProductCardCheckout,
-    NavBar
+    NavBar,
+    Alert
 }

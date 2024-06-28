@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import { getCepUser } from '../../services/api/apiViacep.js';
+import { Alert } from '../../components';
 
 const store = useStore();
 const isConfim = ref(true);
@@ -24,10 +25,13 @@ const confirmInfos = () => {
     dataFormDelivery.state) != ''){
       store.commit('setDataFormDelivery', dataFormDelivery);
       isConfim.value = false;
+      store.commit('setAlert', {text: 'Formulário salvo', title: 'Mensagem', type: 'success', isAlert: true});
+      store.commit('removeAlert');
       return;
 
   }
-  console.log('A campos em branco!');
+  store.commit('setAlert', {text: 'Campos em branco', title: 'Mensagem', type: 'warning', isAlert: true});
+  store.commit('removeAlert');
     
 }
 const editInfos = () => {
@@ -43,7 +47,8 @@ const getCep = async () => {
     return;
 
   }
-  console.log('Cep incorreto!');
+  store.commit('setAlert', {text: 'Cep incorreto', title: 'Mensagem', type: 'warning', isAlert: true});
+  store.commit('removeAlert');
 
 }
 

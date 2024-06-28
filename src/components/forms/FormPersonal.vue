@@ -14,11 +14,14 @@ const confirmInfos = () => {
   if(dataFormPersonal.fone != ''){
     store.commit('setDataFormPersonal', dataFormPersonal);
     isConfirm.value = false;
+    store.commit('setAlert', {text: 'Formulário salvo', title: 'Mensagem', type: 'success', isAlert: true});
+    store.commit('removeAlert');
     return;
 
   }
-  console.log('A campos em branco!');
-  
+  store.commit('setAlert', {text: 'Campos em branco', title: 'Mensagem', type: 'warning', isAlert: true});
+  store.commit('removeAlert');
+
 }
 const editInfos = () => {
   isConfirm.value = true;
