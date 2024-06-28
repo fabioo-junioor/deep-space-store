@@ -2,9 +2,18 @@ import { createStore } from 'vuex';
 
 const store = createStore({
     state:{
-        dataFormPersonal : {name: '', email: '', fone:''},
-        dataFormDelivery : {zipCode: '', street: '', number: '', district: '', city: '', state: ''},
-        dataProduct : {}
+        dataFormPersonal: {},
+        dataFormDelivery: {},
+        dataFormPayment: {},
+        dataProduct: {},
+        dataBuy: {},
+        numberInstallments: [],
+        alert: {
+            isAlert: false,
+            text: '',
+            title: '',
+            type: ''
+        }
     },
     mutations: {
         setDataFormPersonal(state, data){
@@ -15,13 +24,38 @@ const store = createStore({
             state.dataFormDelivery = {...data};
 
         },
-        setDataProduct(state, data){
-            state.dataProduct = data;
+        setDataFormPayment(state, data){
+            state.dataFormPayment = {...data};
 
         },
-        removeDataProduct(state){
-            state.dataProduct = {};
+        setDataProduct(state, data){
+            state.dataProduct = {...data}; 
 
+        },
+        setDataBuy(state, data){
+            state.dataBuy = {...data}; 
+
+        },
+        setInstallments(state, data){
+            state.numberInstallments = [];
+            for(var i = 1; i <= data.numberInstallments; i++){
+                let installments = data.price / i;
+                state.numberInstallments.push(`${i} parcela: R$ ${installments} cada`);
+                
+            }
+        },
+        setAlert(state, data){
+            state.alert.isAlert = data.isAlert;
+            state.alert.text = data.text;
+            state.alert.title = data.title;
+            state.alert.type = data.type;
+
+        },
+        removeAlert(state){
+            setTimeout(() => {
+                state.alert.isAlert = false;
+
+            }, 3000)
         }
     },
     getters: {
@@ -33,9 +67,25 @@ const store = createStore({
             return state.dataFormDelivery;
 
         },
+        getDataFormPayment(state){
+            return state.dataFormPayment;
+
+        },
         getDataProduct(state){
             return state.dataProduct;
             
+        },
+        getDataBuy(state){
+            return state.dataBuy;
+
+        },
+        getNumberInstallments(state){
+            return state.numberInstallments;
+
+        },
+        getAlert(state){
+            return state.alert;
+
         }
     }
 })
