@@ -34,23 +34,56 @@ const handlers = [
                 img: 'https://nerdstore.com.br/wp-content/uploads/2022/10/b2b12f0f778cc0a0b1356a8170006c90.jpg',
                 paymentMethods: ['boleto'],
                 numberInstallments: 10
+
             }, {status: 200})
         }
         return HttpResponse.json({
-            error: 'Produto não encontrado'
-        })
+            messageError: 'Produto não encontrado'
+
+        }, {status: 400})
 
     }),
-    http.post('https://api.deepspacestore.com/offers/:offer_code/create_order', ({ request, params }) => {
+    http.post('https://api.deepspacestore.com/offers/:offer_code/create_order', async ({ request, params }) => {
         const { offer_code } = params;
-        const { dataUser } = request.body;
+        const dataBuy = await request.json();
+        if(verifyCpf(dataBuy.dataPayment.cpf)){
+            return HttpResponse.json({
+                offer_code: offer_code,
+                codeBuy: '5X33S',
+                dataPersonal: {
+                    name: dataBuy.dataPersonal.name,
+                    fone: dataBuy.dataPersonal.fone
+
+                },
+                dataDelivery: {
+                    zipCode: dataBuy.dataDelivery.zipCode,
+                    street: dataBuy.dataDelivery.street
+
+                },
+                dataPayment: {
+                    typePayment: dataBuy.dataPayment.typePayment,
+                    cpf: dataBuy.dataPayment.cpf,
+                    numberInstallments: dataBuy.dataPayment.numberInstallments
+
+                }
+            }, {status: 201})
+        }
         return HttpResponse.json({
-            offer_code: offer_code,
-            data: dataUser
-        })
+            messageError: 'CPF invalido'
+
+        }, {status: 400})
+
     })
 ];
 
+const verifyCpf = (cpf) => {
+    if(cpf == ('000.000.000-00' || '00000000000')){
+        return false;
+    }
+    return true;
+}
+
 export {
-    handlers
+    handlers,
+    verifyCpf
 }

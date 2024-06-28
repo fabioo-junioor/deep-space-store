@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import Home from '../pages/Home.vue';
 import Checkout from '../pages/Checkout.vue';
+import CompleteBuy from '../pages/CompleteBuy.vue';
 
 const routes = [
     {
@@ -13,6 +14,16 @@ const routes = [
         path: '/checkout/:offer_code',
         name: 'checkout',
         component: Checkout,
+        beforeEnter: (_, __, next) => {
+            next();
+            return;
+
+        }
+    },
+    {
+        path: '/completeBuy',
+        name: 'completeBuy',
+        component: CompleteBuy,
         beforeEnter: (_, __, next) => {
             next();
             return;
