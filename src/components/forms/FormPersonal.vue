@@ -7,7 +7,12 @@ const isConfirm = ref(true);
 const dataFormPersonal = reactive({
   name: '',
   email: '',
-  fone: ''
+  fone: '',
+  rules: {
+    required: v => !!v || 'Campo obrigatório',
+    email: v => /.+@.+\..+/.test(v) || 'Email invalido',
+    phone: v => { return ((v.replace(/\D/g, '')).length === 11) || 'Telefone incorreto' }
+  }
 });
 
 const confirmInfos = () => {
@@ -34,21 +39,27 @@ const editInfos = () => {
   <div id="formPersonal" class="pa-1 ma-1">
     <v-form :disabled='!isConfirm' @submit.prevent>
         <v-text-field
+            id="fullName"
             v-model="dataFormPersonal.name"
-            label="Nome completo"
-            type="text" />
+            label="Nome completo*"
+            type="text"
+            :rules="[dataFormPersonal.rules.required]" />
         <v-text-field
+            id="email"
             v-model="dataFormPersonal.email"
-            label="Email"
-            type="email" />
+            label="Email*"
+            type="email"
+            :rules="[dataFormPersonal.rules.required, dataFormPersonal.rules.email]" />
         <v-text-field
+            id="phone"
             v-model="dataFormPersonal.fone"
             label="Telefone*"
             type="text"
-            v-mask="['(##) ####-####']"
-            placeholder="(55) 9999-9999"
-            :rules="[v => !!v || 'Campo obrigatório']" />
+            v-mask="['(##) # ####-####']"
+            placeholder="(55) 9 9999-9999"
+            :rules="[dataFormPersonal.rules.required, dataFormPersonal.rules.phone]" />
         <v-btn
+            id="btnConfirmDataPersonal"
             v-if="isConfirm"
             @click="confirmInfos" 
             class="mt-2"
@@ -58,6 +69,7 @@ const editInfos = () => {
             color="red"
             block>Confirmar</v-btn>
         <v-btn
+            id="btnEditDataPersonal"
             v-else
             @click="editInfos" 
             class="mt-2"

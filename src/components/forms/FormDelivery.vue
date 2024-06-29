@@ -12,8 +12,11 @@ const dataFormDelivery = reactive({
   number: '',
   district: '',
   city: '',
-  state: ''
-
+  state: '',
+  rules: {
+    required: v => !!v || 'Campo obrigatório',
+    cep: v => { return /^(\d{5}-\d{3}|\d{8})$/.test((v.replace(/\D/g, ''))) || 'Campo invalido' }
+  }
 });
 const removeCepCharacters = cep => cep.replace(/\D/g, '');
 
@@ -58,24 +61,31 @@ const getCep = async () => {
   <div id="formDelivery" class="pa-1 ma-1">
     <v-form :disabled="!isConfim" @submit.prevent>
         <v-text-field
+            id="cep"
             v-model="dataFormDelivery.zipCode"
             label="CEP*"
             type="text"
             v-mask="['#####-###']"
+            :rules="[dataFormDelivery.rules.required, dataFormDelivery.rules.cep]"
             :onChange="getCep" />
         <v-text-field
+            id="street"
             v-model="dataFormDelivery.street"
             label="Rua*"
-            type="text" />
+            type="text"
+            :rules="[dataFormDelivery.rules.required]" />
         <v-text-field
+            id="number"
             v-model="dataFormDelivery.number"
             label="Numero*"
-            type="number" />
+            type="text"
+            :rules="[dataFormDelivery.rules.required]" />
         <v-text-field
-            required
+            id="district"
             v-model="dataFormDelivery.district"
-            label="Bairro"
-            type="text" />
+            label="Bairro*"
+            type="text"
+            :rules="[dataFormDelivery.rules.required]" />
         <v-text-field
             disabled
             v-model="dataFormDelivery.city"
@@ -87,6 +97,7 @@ const getCep = async () => {
             label="Estado*"
             type="text" />
         <v-btn
+            id="btnConfirmDataDelivery"
             v-if="isConfim"
             @click="confirmInfos"
             class="mt-2"
@@ -96,6 +107,7 @@ const getCep = async () => {
             color="red"
             block>Confirmar</v-btn>
         <v-btn
+            id="btnEditDataDelivery"
             v-else
             @click="editInfos"
             class="mt-2"
