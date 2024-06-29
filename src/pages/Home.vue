@@ -17,7 +17,7 @@ const buyProduct = (offer_code) => {
 </script>
 
 <template>
-  <div id="home" class="d-flex flew-wrap justify-center ga-3 pa-4">
+  <div id="home" class="d-flex flew-wrap justify-center ga-3 pa-6">
     <ProductCardHome
       v-for="i in allProductsHome" :key="i"
       :offer_code="i.offer_code"

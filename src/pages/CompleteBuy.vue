@@ -7,11 +7,17 @@ const store = useStore();
 
 <template>
   <div id="completeBuy" class="pa-1 ma-1">
+    <v-row class="ma-1">
+      <CardCheckout class="msgBuySuccess">
+        <h2 class="text-center mt-6 mb-6">Parabéns pela compra!</h2>
+      </CardCheckout>
+    </v-row>
     <v-row class="flex-nowrap ga-1">
       <v-col class="flex-grow-1">
         <CardCheckout title="Dados da compra" class="d-flex flex-column align-center">
             <h4 class="ma-1">{{store.getters.getDataBuy.dataPayment.typePayment}}</h4>
             <div v-if="store.getters.getDataBuy.dataPayment.typePayment == 'pix'">
+              <h5 class="text-center pt-3">Escaneie para efetuar o pagamneto</h5>
                 <v-img
                     height="300"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Link_pra_pagina_principal_da_Wikipedia-PT_em_codigo_QR_b.svg/1200px-Link_pra_pagina_principal_da_Wikipedia-PT_em_codigo_QR_b.svg.png"
@@ -19,6 +25,7 @@ const store = useStore();
                 <h5 class="ma-1">Código: 46874541356498791</h5>
             </div>
             <div v-if="store.getters.getDataBuy.dataPayment.typePayment == 'boleto'">
+              <h5 class="text-center pt-3">Escaneie para efetuar o pagamneto</h5>
                 <v-img
                     min-width="250"
                     src="https://img.freepik.com/psd-gratuitas/ilustracao-de-codigo-de-barras-isolada_23-2150584094.jpg"
@@ -70,4 +77,10 @@ const store = useStore();
 </template>
 
 <style lang="scss" scoped>
+#completeBuy{
+  .msgBuySuccess{
+    width: 100%;
+    
+  }
+}
 </style>

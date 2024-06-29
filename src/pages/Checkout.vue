@@ -23,7 +23,6 @@ const getProductByOfferCode = async () => {
 
   if (dataProduct.offer_code) {
     store.commit("setDataProduct", dataProduct);
-    store.commit("setInstallments", dataProduct);
     return;
   }
 };
@@ -49,8 +48,6 @@ const confirmPayment = async () => {
     return;
 
   }
-
-  console.log(responseCreateOrder);
   store.commit('setDataBuy', responseCreateOrder);
   router.push({ name: "completeBuy" });
 

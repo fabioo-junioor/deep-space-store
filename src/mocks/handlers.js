@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 const handlers = [
     http.get('https://api.deepspacestore.com/offers/:offer_code', ({ params }) => {
         const { offer_code } = params;
-        if(offer_code == '111'){
+        if (offer_code == '111') {
             return HttpResponse.json({
                 offer_code: offer_code,
                 name: 'Tênis',
@@ -12,9 +12,9 @@ const handlers = [
                 img: 'https://images.vexels.com/content/262751/preview/sneakers-color-stroke-80s-482a17.png',
                 paymentMethods: ['boleto', 'pix', 'cartao'],
                 numberInstallments: 2
-            }, {status: 200})
+            }, { status: 200 })
         }
-        if(offer_code == '222'){
+        if (offer_code == '222') {
             return HttpResponse.json({
                 offer_code: offer_code,
                 name: 'Chinelo',
@@ -23,9 +23,9 @@ const handlers = [
                 img: 'https://cdn.b4c.inf.br/storage/fcwdistribuidora/1000/chinelo-havaianas-azul-naval-3940-1704828629.jpg',
                 paymentMethods: ['boleto', 'pix'],
                 numberInstallments: 4
-            }, {status: 200})
+            }, { status: 200 })
         }
-        if(offer_code == '333'){
+        if (offer_code == '333') {
             return HttpResponse.json({
                 offer_code: offer_code,
                 name: 'Camiseta',
@@ -35,18 +35,18 @@ const handlers = [
                 paymentMethods: ['boleto'],
                 numberInstallments: 10
 
-            }, {status: 200})
+            }, { status: 200 })
         }
         return HttpResponse.json({
             messageError: 'Produto não encontrado'
 
-        }, {status: 400})
+        }, { status: 400 })
 
     }),
     http.post('https://api.deepspacestore.com/offers/:offer_code/create_order', async ({ request, params }) => {
         const { offer_code } = params;
         const dataBuy = await request.json();
-        if(verifyCpf(dataBuy.dataPayment.cpf)){
+        if (verifyCpf(dataBuy.dataPayment.cpf)) {
             return HttpResponse.json({
                 offer_code: offer_code,
                 codeBuy: '5X33S',
@@ -66,21 +66,27 @@ const handlers = [
                     numberInstallments: dataBuy.dataPayment.numberInstallments
 
                 }
-            }, {status: 201})
+            }, { status: 201 })
         }
         return HttpResponse.json({
             messageError: 'CPF invalido'
 
-        }, {status: 400})
+        }, { status: 400 })
 
     })
 ];
 
 const verifyCpf = (cpf) => {
-    if(cpf == ('000.000.000-00' || '00000000000')){
-        return false;
+    if (cpf.replace(/\D/g, '').length === 11) {
+        if (cpf == ('000.000.000-00')) {
+            return false;
+
+        }
+        return true;
+
     }
-    return true;
+    return false;
+
 }
 
 export {

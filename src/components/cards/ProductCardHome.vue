@@ -6,10 +6,10 @@ const emit = defineEmits(['btnBuyProduct']);
 
 <template>
   <div id="productCardHome">
-    <v-card class="d-flex flex-column" width="250">
+    <v-card class="d-flex flex-column" width="350">
       <v-img
         class="text-white border-sm"
-        height="200"
+        height="300"
         :src="props.img"
         cover>
       </v-img>

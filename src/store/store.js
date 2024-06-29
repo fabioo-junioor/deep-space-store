@@ -7,7 +7,6 @@ const store = createStore({
         dataFormPayment: {},
         dataProduct: {},
         dataBuy: {},
-        numberInstallments: [],
         alert: {
             isAlert: false,
             text: '',
@@ -35,14 +34,6 @@ const store = createStore({
         setDataBuy(state, data){
             state.dataBuy = {...data}; 
 
-        },
-        setInstallments(state, data){
-            state.numberInstallments = [];
-            for(var i = 1; i <= data.numberInstallments; i++){
-                let installments = data.price / i;
-                state.numberInstallments.push(`${i} parcela: R$ ${installments} cada`);
-                
-            }
         },
         setAlert(state, data){
             state.alert.isAlert = data.isAlert;
@@ -77,10 +68,6 @@ const store = createStore({
         },
         getDataBuy(state){
             return state.dataBuy;
-
-        },
-        getNumberInstallments(state){
-            return state.numberInstallments;
 
         },
         getAlert(state){
