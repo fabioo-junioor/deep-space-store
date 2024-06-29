@@ -15,7 +15,7 @@ describe('Product buy flow', () => {
         
         await $('#cep').setValue('97200000');
         await $('#number').setValue('1212a');
-        await browser.pause(1000);
+        await browser.pause(1500);
         await $('#street').setValue('rua maria');
         await $('#district').setValue('centro');
         await $('#btnConfirmDataDelivery').click();
