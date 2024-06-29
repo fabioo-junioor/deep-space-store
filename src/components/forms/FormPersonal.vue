@@ -1,30 +1,33 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import { useStore } from 'vuex';
+import { fielsRequired, emailValidator, phoneValidator } from '../../utils/inputValidators.js';
 
 const store = useStore();
 const isConfirm = ref(true);
 const dataFormPersonal = reactive({
   name: '',
   email: '',
-  fone: '',
+  phone: '',
   rules: {
     required: v => !!v || 'Campo obrigatório',
-    email: v => /.+@.+\..+/.test(v) || 'Email invalido',
-    phone: v => { return ((v.replace(/\D/g, '')).length === 11) || 'Telefone incorreto' }
+    email: v => emailValidator(v) || 'Email invalido',
+    phone: v => phoneValidator(v) || 'Telefone incorreto'
   }
 });
 
 const confirmInfos = () => {
-  if(dataFormPersonal.fone != ''){
+  if(emailValidator(dataFormPersonal.email) && 
+    phoneValidator(dataFormPersonal.phone) &&
+    fielsRequired(dataFormPersonal.name)){
     store.commit('setDataFormPersonal', dataFormPersonal);
-    isConfirm.value = false;
-    store.commit('setAlert', {text: 'Formulário salvo', title: 'Mensagem', type: 'success', isAlert: true});
+    store.commit('setAlert', {text: 'Formulário salvo', title: 'Dados pessoais!', type: 'success', isAlert: true});
     store.commit('removeAlert');
+    isConfirm.value = false;
     return;
 
   }
-  store.commit('setAlert', {text: 'Campos em branco', title: 'Mensagem', type: 'warning', isAlert: true});
+  store.commit('setAlert', {text: 'Campos incorretos', title: 'Dados pessoais!', type: 'warning', isAlert: true});
   store.commit('removeAlert');
 
 }
@@ -52,7 +55,7 @@ const editInfos = () => {
             :rules="[dataFormPersonal.rules.required, dataFormPersonal.rules.email]" />
         <v-text-field
             id="phone"
-            v-model="dataFormPersonal.fone"
+            v-model="dataFormPersonal.phone"
             label="Telefone*"
             type="text"
             v-mask="['(##) # ####-####']"

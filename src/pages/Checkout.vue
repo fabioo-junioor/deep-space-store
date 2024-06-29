@@ -36,14 +36,14 @@ const confirmPayment = async () => {
   if((Object.keys(jsonRequest.dataPersonal).length &&
       Object.keys(jsonRequest.dataDelivery).length &&
       Object.keys(jsonRequest.dataPayment).length) === 0){
-    store.commit('setAlert', {text: 'Campos faltando', title: 'Mensagem', type: 'warning', isAlert: true});
+    store.commit('setAlert', {text: 'Campos faltando', title: 'Checkout!', type: 'warning', isAlert: true});
     store.commit('removeAlert');
     return;
 
   }
   let responseCreateOrder = await buyProduct(route.params.offer_code, jsonRequest);
   if (responseCreateOrder.messageError) {
-    store.commit('setAlert', {text: responseCreateOrder.messageError, title: 'Mensagem', type: 'error', isAlert: true});
+    store.commit('setAlert', {text: responseCreateOrder.messageError, title: 'Checkout!', type: 'error', isAlert: true});
     store.commit('removeAlert');
     return;
 

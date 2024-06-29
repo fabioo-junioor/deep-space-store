@@ -10,8 +10,6 @@ const handlers = [
                 description: 'Lorem Ipsum é um texto modelo da indústria tipográfica e de impressão.',
                 price: 400,
                 img: 'https://images.vexels.com/content/262751/preview/sneakers-color-stroke-80s-482a17.png',
-                paymentMethods: ['boleto', 'pix', 'cartao'],
-                numberInstallments: 2
             }, { status: 200 })
         }
         if (offer_code == '222') {
@@ -21,8 +19,6 @@ const handlers = [
                 description: 'Lorem Ipsum é um texto modelo da indústria tipográfica e de impressão.',
                 price: 30,
                 img: 'https://cdn.b4c.inf.br/storage/fcwdistribuidora/1000/chinelo-havaianas-azul-naval-3940-1704828629.jpg',
-                paymentMethods: ['boleto', 'pix'],
-                numberInstallments: 4
             }, { status: 200 })
         }
         if (offer_code == '333') {
@@ -32,9 +28,6 @@ const handlers = [
                 description: 'Lorem Ipsum é um texto modelo da indústria tipográfica e de impressão.',
                 price: 200,
                 img: 'https://nerdstore.com.br/wp-content/uploads/2022/10/b2b12f0f778cc0a0b1356a8170006c90.jpg',
-                paymentMethods: ['boleto'],
-                numberInstallments: 10
-
             }, { status: 200 })
         }
         return HttpResponse.json({
@@ -52,7 +45,7 @@ const handlers = [
                 codeBuy: '5X33S',
                 dataPersonal: {
                     name: dataBuy.dataPersonal.name,
-                    fone: dataBuy.dataPersonal.fone
+                    phone: dataBuy.dataPersonal.phone
 
                 },
                 dataDelivery: {
@@ -63,8 +56,7 @@ const handlers = [
                 dataPayment: {
                     typePayment: dataBuy.dataPayment.typePayment,
                     cpf: dataBuy.dataPayment.cpf,
-                    numberInstallments: dataBuy.dataPayment.numberInstallments
-
+                    definedInstallment: dataBuy.dataPayment.definedInstallment
                 }
             }, { status: 201 })
         }

@@ -32,13 +32,13 @@ const store = useStore();
                     ></v-img>
                 <h5 class="ma-1">Código: A5S4DAS11165AS46A511144</h5>
             </div>
-            <div v-if="store.getters.getDataBuy.dataPayment.typePayment == 'cartao'">
+            <div v-if="store.getters.getDataBuy.dataPayment.typePayment == 'cartão de credito'">
                 <v-col>
                     <h3>Pagamento bem sucedido!</h3>
                 </v-col>
                 <v-col>
                     <h4>Nome: {{store.getters.getDataBuy.dataPersonal.name}}</h4>
-                    <h4>Telefone: {{store.getters.getDataBuy.dataPersonal.fone}}</h4>
+                    <h4>Telefone: {{store.getters.getDataBuy.dataPersonal.phone}}</h4>
                 </v-col>
                 <v-col>
                     <h4>CEP: {{store.getters.getDataBuy.dataDelivery.zipCode}}</h4>
@@ -46,7 +46,7 @@ const store = useStore();
                 </v-col>
                 <v-col>
                     <h4>CPF: {{store.getters.getDataBuy.dataPayment.cpf}}</h4>
-                    <h4>Parcelas: {{store.getters.getDataBuy.dataPayment.numberInstallments}}</h4>
+                    <h4>Parcelas: {{store.getters.getDataBuy.dataPayment.definedInstallment}}</h4>
                 </v-col>
                 
             </div>

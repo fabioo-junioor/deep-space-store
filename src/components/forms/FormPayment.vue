@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
+import { fielsRequired, cpfValidator, numCardValidator, codeCardValidator, validCardValidator } from '../../utils/inputValidators.js';
 const emit = defineEmits(['confirmPaymentForm']);
 
 const store = useStore();
@@ -18,10 +19,10 @@ const dataFormPayment = reactive({
   definedInstallment: null,
   rules: {
     required: v => !!v || 'Campo obrigatório',
-    numCard: v => { return ((v.replace(/\D/g, '')).length === 16) || 'Numero incorreto' },
-    validCard: v => { return ((v.replace(/\D/g, '')).length === 4) || 'Numero incorreto' },
-    codeCard: v => { return ((v.replace(/\D/g, '')).length === 3) || 'Numero incorreto' },
-    cpf: v => { return validCpf(v) || 'Numero incorreto' }
+    numCard: v => numCardValidator(v) || 'Numero incorreto',
+    validCard: v => validCardValidator(v) || 'Numero incorreto',
+    codeCard: v => codeCardValidator(v) || 'Numero incorreto',
+    cpf: v => cpfValidator(v) || 'Numero incorreto'
   }
 });
 
@@ -36,42 +37,39 @@ const calculatesInstallmentValue = () => {
 }
 
 const confirmInfosCard = () => {
-  if(((dataFormPayment.typePayment && dataFormPayment.numberInstallments) != null)&&
-      ((dataFormPayment.cpf && dataFormPayment.numberCard &&
-          dataFormPayment.cardExpiring && dataFormPayment.cardholderName &&
-          dataFormPayment.securityCode) != '')){
+  if(cpfValidator(dataFormPayment.cpf) &&
+    numCardValidator(dataFormPayment.numberCard) &&
+    validCardValidator(dataFormPayment.cardExpiring) &&
+    fielsRequired(dataFormPayment.cardholderName) &&
+    codeCardValidator(dataFormPayment.securityCode) &&
+    fielsRequired(dataFormPayment.definedInstallment)){
     store.commit('setDataFormPayment', dataFormPayment);
     emit('confirmPaymentForm');
     return;
 
   }
-  store.commit('setAlert', {text: 'Campos em branco', title: 'Mensagem', type: 'warning', isAlert: true});
+  store.commit('setAlert', {text: 'Campos incorretos', title: 'Dados de pagamento!', type: 'warning', isAlert: true});
   store.commit('removeAlert');
     
 }
 const confirmInfosOthers = () => {
-  if((dataFormPayment.typePayment != null) && (dataFormPayment.cpf != '')){
+  if((dataFormPayment.typePayment != null) && (fielsRequired(dataFormPayment.cpf))){
     store.commit('setDataFormPayment', dataFormPayment);
     emit('confirmPaymentForm');
     return;
 
   }
-  store.commit('setAlert', {text: 'Campos em branco', title: 'Mensagem', type: 'warning', isAlert: true});
+  store.commit('setAlert', {text: 'Campos incorretos', title: 'Dados de pagamento!', type: 'warning', isAlert: true});
   store.commit('removeAlert');
-
-}
-const validCpf = (cpf) => {
-  if(cpf.replace(/\D/g, '').length === 11){
-    return true;
-
-  }
-  return false;
 
 }
 watch(() => {
   isCard.value = dataFormPayment.typePayment == 'cartão de credito' ? true : false;
   calculatesInstallmentValue();
 
+})
+onMounted(() => {
+  
 })
 </script>
 

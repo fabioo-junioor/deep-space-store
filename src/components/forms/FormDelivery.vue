@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import { getCepUser } from '../../services/api/apiViacep.js';
+import { fielsRequired, cepValidator} from '../../utils/inputValidators.js';
 import { Alert } from '../../components';
 
 const store = useStore();
@@ -15,25 +16,24 @@ const dataFormDelivery = reactive({
   state: '',
   rules: {
     required: v => !!v || 'Campo obrigatório',
-    cep: v => { return /^(\d{5}-\d{3}|\d{8})$/.test((v.replace(/\D/g, ''))) || 'Campo invalido' }
+    cep: v => cepValidator(v) || 'Campo invalido'
   }
 });
 const removeCepCharacters = cep => cep.replace(/\D/g, '');
 
 const confirmInfos = () => {
-  if((dataFormDelivery.zipCode &&
-    dataFormDelivery.street &&
-    dataFormDelivery.number &&
-    dataFormDelivery.city &&
-    dataFormDelivery.state) != ''){
+  if(cepValidator(dataFormDelivery.zipCode) &&
+    fielsRequired(dataFormDelivery.street) &&
+    fielsRequired(dataFormDelivery.number) &&
+    fielsRequired(dataFormDelivery.district)){
       store.commit('setDataFormDelivery', dataFormDelivery);
-      isConfim.value = false;
-      store.commit('setAlert', {text: 'Formulário salvo', title: 'Mensagem', type: 'success', isAlert: true});
+      store.commit('setAlert', {text: 'Formulário salvo', title: 'Dados de entrega!', type: 'success', isAlert: true});
       store.commit('removeAlert');
+      isConfim.value = false;
       return;
 
   }
-  store.commit('setAlert', {text: 'Campos em branco', title: 'Mensagem', type: 'warning', isAlert: true});
+  store.commit('setAlert', {text: 'Campos incorretos', title: 'Dados de entrega!', type: 'warning', isAlert: true});
   store.commit('removeAlert');
     
 }
@@ -50,7 +50,7 @@ const getCep = async () => {
     return;
 
   }
-  store.commit('setAlert', {text: 'Cep incorreto', title: 'Mensagem', type: 'warning', isAlert: true});
+  store.commit('setAlert', {text: 'Cep incorreto', title: 'Dados de entrega!', type: 'warning', isAlert: true});
   store.commit('removeAlert');
 
 }
