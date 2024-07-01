@@ -53,7 +53,7 @@ const confirmInfosCard = () => {
     
 }
 const confirmInfosOthers = () => {
-  if((dataFormPayment.typePayment != null) && (fielsRequired(dataFormPayment.cpf))){
+  if((fielsRequired(dataFormPayment.typePayment)) && (cpfValidator(dataFormPayment.cpf))){
     store.commit('setDataFormPayment', dataFormPayment);
     emit('confirmPaymentForm');
     return;
